@@ -1,0 +1,199 @@
+from OpenGL.GLUT import *
+from OpenGL.GL import *
+import numpy as np
+from math import *
+trans=0
+d=True
+def draw_circle(r=0.5, xc=0, yc=0, R=1, g=0, b=0,start=0,end=2*pi):
+    glBegin(GL_POLYGON)
+    glColor(R, g, b)
+    for theta in np.arange(start, end, .001):
+        x = xc + r * cos(theta)
+        y = yc + r * sin(theta)
+
+        glVertex(x, y)
+    glEnd()
+
+
+def draw_circle_l(r=0.5, xc=0, yc=0, R=1, g=0, b=0,start=0,end=2*pi):
+    glBegin(GL_LINE_LOOP)
+    glColor(R, g, b)
+    for theta in np.arange(start, end, .001):
+        x = xc + r * cos(theta)
+        y = yc + r * sin(theta)
+
+        glVertex(x, y)
+    glEnd()
+def eyeOFW():
+    global trans
+    global d
+    trans=trans%12
+    draw_circle(0.1,0.15,0.5,0.46,0.46,0.46)
+    draw_circle(0.1, -0.15, 0.5,0.46,0.46,0.46)
+    draw_circle(0.06, 0.15, 0.5, 0.1, 0.1, 0.1)
+    draw_circle(0.06,-0.15, 0.5, 0.1, 0.1, 0.1)
+    draw_circle(0.017+trans, 0.193, 0.5, 1, 1, 1)
+    draw_circle(0.017+trans,-0.107, 0.5, 1, 1, 1)
+    if d == True :
+        trans = trans -0.01
+    else :
+        trans = trans +0.01
+    if trans<-1.2:
+        d=False
+    if trans>0:
+        d=True
+def draw_rect_L(x=0,y=0,w=0.5,h=0.5,R=0.4,G=0.2,B=0.8,l=1):
+    glColor(R,G,B)
+    glLineWidth(l)
+    glBegin(GL_LINE_LOOP)
+    glVertex(x,y)
+    glVertex(x+w,y)
+    glVertex(x+w,y-h)
+    glVertex(x,y-h)
+    glEnd()
+
+def draw_rect(x=0,y=0,w=0.5,h=0.5,R=1,G=0,B=1):
+    glColor(R,G,B)
+    #glLineWidth(3)
+    glBegin(GL_POLYGON)
+    glVertex(x,y)
+    glVertex(x+w,y)
+    glVertex(x+w,y-h)
+    glVertex(x,y-h)
+    glEnd()
+
+def xyAxis ()  :
+    glLineWidth(1)
+    glBegin(GL_LINES)
+    glVertex(0, 1)
+    glVertex(0, -1)
+    glVertex(1, 0)
+    glVertex(-1, 0)
+    glColor(0,0,1)
+    glEnd()
+
+
+def ordLine(x1,y1,x2,y2,r=0.3,g=0.1,b=1,w=4):
+    glColor(r,g,b)
+    glLineWidth(w)
+    glBegin(GL_LINES)
+    glVertex(x1,y1)
+    glVertex(x2,y2)
+    glEnd()
+
+def writeTheName():
+    glTranslate(0.03,-0.38,0)
+    glScale(0.5,0.5,1)
+    glColor(0,0,0)
+    glLineWidth(2)
+    glBegin(GL_LINE_STRIP)
+    glVertex(0,0)
+    glVertex(0.03,-0.1)
+    glVertex(0.06,0)
+    glVertex(0.09,-0.1)
+    glVertex(0.12,0)
+    glEnd()
+
+    glBegin(GL_LINE_STRIP)
+    glVertex(0.14, -0.1)
+    glVertex(0.18, 0)
+    glVertex(0.21, -0.075)
+    glVertex(0.15, -0.075)
+    glVertex(0.18, 0)
+    glVertex(0.22,-0.1)
+    glEnd()
+
+    glBegin(GL_LINES)
+    glVertex(0.24, 0)
+    glVertex(0.24, -0.1)
+    glVertex(0.24, -0.1)
+    glVertex(0.28, -0.1)
+    glVertex(0.3, 0)
+    glVertex(0.3, -0.1)
+    glVertex(0.3, -0.1)
+    glVertex(0.34, -0.1)
+    glEnd()
+    glBegin(GL_LINE_STRIP)
+    glVertex(0.5, 0)
+    glVertex(0.43, 0)
+    glVertex(0.43, -0.05)
+    glVertex(0.5, -0.05)
+    glVertex(0.43, -0.05)
+
+    glVertex(0.43, -0.1)
+    glVertex(0.5, -0.1)
+    glEnd()
+    ordLine(0.35, -0.05, 0.4, -0.05, 0, 0, 0)
+
+def body():
+    draw_rect(-0.3,0.15,0.6,0.6,1,0.9,0)
+    draw_rect(0.4, -0.3, 0.2, 0.4, 0.7, 0.6, 0.5)
+    draw_rect(-0.6, -0.3, 0.2, 0.4, 0.7, 0.6, 0.5)
+    draw_rect_L(-0.3, 0.15, 0.6,0.6,0,0,0,3)
+    draw_rect_L(0.4, -0.3, 0.2, 0.4)
+    draw_rect_L(-0.6, -0.3, 0.2, 0.4)
+    for y in np.arange(0,0.41,0.04):
+        ordLine(0.4,-0.3-y,0.6,-0.3-y,0.3 , 0.1,1 ,1)
+    for y in np.arange(0, 0.41, 0.04):
+        ordLine(-0.6, -0.3 - y, -0.4, -0.3 - y,0.3,0.1,1,1)
+    ordLine(-0.4,-0.5,0.4,-0.5,0,0,0)
+    draw_rect(-0.25,-0.454,0.5,0.04,0,0,0)
+    ordLine(0,0.15,0,0.5,0,0,0,225)
+    ordLine(-0.15,0.5, 0.15, 0.5, 1, 0.9, 0, 225)
+    draw_rect(-0.07,0.33,0.14,0.18,1,0.9,0)
+    draw_rect_L(-0.07, 0.33, 0.14, 0.18, 0, 0,0,2)
+    for y in np.arange(0.04,0.2,0.04):
+        ordLine(-0.07,0.35-y,0.07,0.35-y,0.3 , 0.1,1 ,1)
+    ordLine(-0.3,0,0.3,0,0,0,0)
+    ordLine(0.2,0.15,0.2,0,0,0,0)
+    ordLine(-0.2,0.15,-0.2,0,0,0,0)
+    glScale(0.5,0.5,1)
+    glTranslate(-0.26,1.1,0)
+    draw_rect(0,0,0.5,.5,1,1,0)
+    draw_rect_L(0, 0, 0.5, .5, 0, 0, 1)
+    glLoadIdentity()
+    #draw_rect_L()
+    glLineWidth(3)
+    draw_circle_l(0.09,0,0.42,0,0,1,pi)
+
+
+
+
+
+
+
+
+
+def draw():
+    #glClear(1,1,1,1)
+    #glClear(GL_COLOR_BUFFER_BIT)
+    glMatrixMode(GL_MODELVIEW)
+    glLoadIdentity()
+    glClearColor(1, 1, 1, 1)
+    glClear(GL_COLOR_BUFFER_BIT)
+    glColor3f(0, 0, 1)
+    xyAxis()
+    ordLine(-0.7,-0.7,0.7,-0.7,0,0,1)
+    body()
+    eyeOFW()
+    writeTheName()
+
+    #draw_circle()
+
+
+
+
+    glFlush()
+
+
+
+
+
+
+
+glutInit()
+glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB)
+glutInitWindowSize(500, 500)
+glutCreateWindow(b"WELL E")
+glutDisplayFunc(draw)
+glutMainLoop()
